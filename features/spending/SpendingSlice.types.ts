@@ -5,7 +5,9 @@ export type SpendingItem = {
   id?: string
 }
 
-export type Category =
+export type Category = BaseCategory | string
+
+export type BaseCategory =
   | "groceries"
   | "eating out"
   | "entertainment"
