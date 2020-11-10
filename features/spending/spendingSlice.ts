@@ -18,6 +18,9 @@ import {
   Category,
   SpendingItem,
   CategoryState,
+  AddCategory,
+  DeleteCategory,
+  UpdateCategory,
 } from "./SpendingSlice.types"
 
 export const initialState: SpendingState = {
@@ -61,10 +64,34 @@ export const spendingSlice = createSlice({
       const { category, spendingItemId } = action.payload
       deleteItem(state[category].spendingHistory, spendingItemId)
     },
-
     updateSpendingItem: (state, action: PayloadAction<UpdateItem>) => {
       const { category, updatedSpendingItem } = action.payload
       updateItem(state[category].spendingHistory, updatedSpendingItem)
+    },
+
+    addCategory: (state, action: PayloadAction<AddCategory>) => {
+      const { category, budget } = action.payload
+      state[category] = { budget, spendingHistory: [] }
+    },
+
+    deleteCategory: (state, action: PayloadAction<DeleteCategory>) => {
+      delete state[action.payload.category]
+    },
+
+    updateCategory: (state, action: PayloadAction<UpdateCategory>) => {
+      const {
+        previousCategory,
+        updatedCategory,
+        updatedBudget,
+      } = action.payload
+
+      if (previousCategory === updatedCategory) {
+        state[previousCategory].budget = updatedBudget
+      } else {
+        state[updatedCategory] = state[previousCategory]
+        state[updatedCategory].budget = updatedBudget
+        delete state[previousCategory]
+      }
     },
   },
 })

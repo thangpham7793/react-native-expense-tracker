@@ -42,3 +42,16 @@ export type UpdateItem = {
   category: Category
   updatedSpendingItem: SpendingItem
 }
+
+export type AddCategory = {
+  category: Category
+  budget: number
+}
+export type DeleteCategory = {
+  category: Category
+}
+export type UpdateCategory = {
+  previousCategory: Category
+  updatedCategory: Category
+  updatedBudget: number
+}
