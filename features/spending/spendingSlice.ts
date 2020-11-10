@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   addId,
   calculateTotalSpentBudget,
+  compareByDateAscending,
+  compareByDateDescending,
   deleteItem,
   updateItem,
 } from "./spendingSlice.helpers"
@@ -86,8 +88,36 @@ export const selectCategoryHistory = (
 ): SpendingItem[] => state.spending[category].spendingHistory
 
 export const selectSpentBudget = (state: any, category: Category): number => {
-  const spendingHistory = selectCategoryHistory(state, category)
-  return calculateTotalSpentBudget(spendingHistory)
+  return calculateTotalSpentBudget(selectCategoryHistory(state, category))
+}
+
+export const selectAllSpendingCategories = (state: any): Category[] =>
+  Object.keys(state.spending)
+
+export const selectAllHistoryUnsorted = (state: any): SpendingItem[] => {
+  return selectAllSpendingCategories(state).flatMap((category) =>
+    selectCategoryHistory(state, category)
+  )
+}
+
+export const selectAllHistorySortedByDateAscending = (
+  state: any
+): SpendingItem[] => {
+  return selectAllHistoryUnsorted(state).sort((a, b) =>
+    compareByDateAscending(a.date, b.date)
+  )
+}
+
+export const selectAllHistorySortedByDateDescending = (
+  state: any
+): SpendingItem[] => {
+  return selectAllHistoryUnsorted(state).sort((a, b) =>
+    compareByDateDescending(a.date, b.date)
+  )
+}
+
+export const selectTotalSpentBudget = (state: any): number => {
+  return calculateTotalSpentBudget(selectAllHistoryUnsorted(state))
 }
 
 export default spendingSlice.reducer

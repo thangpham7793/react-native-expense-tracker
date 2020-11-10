@@ -32,6 +32,14 @@ export function deleteItem(
   spendingHistory.splice(targetItemIndex, 1)
 }
 
+export function compareByDateAscending(a: Date, b: Date): number {
+  return a < b ? 1 : -1
+}
+
+export function compareByDateDescending(a: Date, b: Date): number {
+  return a > b ? 1 : -1
+}
+
 export function calculateTotalSpentBudget(spendingHistory: SpendingItem[]) {
   return spendingHistory.reduce(
     (total: number, { amount }: SpendingItem) => total + amount,
