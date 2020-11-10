@@ -10,13 +10,14 @@ import {
 import {
   AddItem,
   DeleteItem,
-  EditItem,
+  UpdateItem,
   SetCategoryBudget,
   SpendingState,
   Category,
+  SpendingItem,
 } from "./SpendingSlice.types"
 
-const initialState: SpendingState = {
+export const initialState: SpendingState = {
   groceries: { spendingHistory: [], budget: 0 },
   entertainment: { spendingHistory: [], budget: 0 },
   "eating out": { spendingHistory: [], budget: 0 },
@@ -28,7 +29,7 @@ export const spendingSlice = createSlice({
   name: "spending",
   initialState,
   reducers: {
-    setTestState: (state, action: PayloadAction<SpendingState>) => {
+    setSpendingState: (state, action: PayloadAction<SpendingState>) => {
       return { ...state, ...action.payload }
     },
 
@@ -58,7 +59,7 @@ export const spendingSlice = createSlice({
       deleteItem(state[category].spendingHistory, spendingItemId)
     },
 
-    editSpendingItem: (state, action: PayloadAction<EditItem>) => {
+    updateSpendingItem: (state, action: PayloadAction<UpdateItem>) => {
       const { category, updatedSpendingItem } = action.payload
       updateItem(state[category].spendingHistory, updatedSpendingItem)
     },
@@ -69,16 +70,19 @@ export const spendingSlice = createSlice({
 export const {
   addSpendingItem,
   deleteSpendingItem,
-  editSpendingItem,
+  updateSpendingItem,
   setCategoryBudget,
+  setSpendingState,
 } = spendingSlice.actions
 
 //selectors
 export const selectCategory = (state: any, category: Category) =>
   state.spending[category]
 
-export const selectCategoryHistory = (state: any, category: Category) =>
-  state.spending[category].spendingHistory
+export const selectCategoryHistory = (
+  state: any,
+  category: Category
+): SpendingItem[] => state.spending[category].spendingHistory
 
 export const selectSpentBudget = (state: any, category: Category) => {
   const { spendingHistory } = selectCategory(state, category)

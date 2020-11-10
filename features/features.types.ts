@@ -1,5 +1,3 @@
-import * as SpendingSliceTypes from "./spending/SpendingSlice.types";
+import * as SpendingSliceTypes from "./spending/SpendingSlice.types"
 
-export { SpendingSliceTypes };
-
-//Reducer
+export { SpendingSliceTypes }
