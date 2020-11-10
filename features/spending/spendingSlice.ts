@@ -85,11 +85,15 @@ export const spendingSlice = createSlice({
         updatedBudget,
       } = action.payload
 
+      const newBudget = updatedBudget
+        ? updatedBudget
+        : state[previousCategory].budget
+
       if (previousCategory === updatedCategory) {
-        state[previousCategory].budget = updatedBudget
+        state[previousCategory].budget = newBudget
       } else {
         state[updatedCategory] = state[previousCategory]
-        state[updatedCategory].budget = updatedBudget
+        state[updatedCategory].budget = newBudget
         delete state[previousCategory]
       }
     },
@@ -106,23 +110,28 @@ export const {
 } = spendingSlice.actions
 
 //selectors
-export const selectCategory = (state: any, category: Category): CategoryState =>
-  state.spending[category]
+export const selectCategoryState = (
+  state: any,
+  category: Category
+): CategoryState => state.spending[category]
 
 export const selectCategoryHistory = (
   state: any,
   category: Category
 ): SpendingItem[] => state.spending[category].spendingHistory
 
-export const selectSpentBudget = (state: any, category: Category): number => {
+export const selectSpentBudgetByCategory = (
+  state: any,
+  category: Category
+): number => {
   return calculateTotalSpentBudget(selectCategoryHistory(state, category))
 }
 
-export const selectAllSpendingCategories = (state: any): Category[] =>
+export const selectAllSpendingCategoryNames = (state: any): Category[] =>
   Object.keys(state.spending)
 
 export const selectAllHistoryUnsorted = (state: any): SpendingItem[] => {
-  return selectAllSpendingCategories(state).flatMap((category) =>
+  return selectAllSpendingCategoryNames(state).flatMap((category) =>
     selectCategoryHistory(state, category)
   )
 }

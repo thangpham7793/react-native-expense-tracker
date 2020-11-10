@@ -53,5 +53,5 @@ export type DeleteCategory = {
 export type UpdateCategory = {
   previousCategory: Category
   updatedCategory: Category
-  updatedBudget: number
+  updatedBudget?: number
 }

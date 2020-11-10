@@ -1,13 +1,14 @@
 import { BaseCategory } from "./SpendingSlice.types"
 import {
-  selectCategory,
+  selectCategoryState,
   selectCategoryHistory,
-  selectSpentBudget,
+  selectSpentBudgetByCategory,
   selectTotalSpentBudget,
-  selectAllSpendingCategories,
+  selectAllSpendingCategoryNames,
   selectAllHistorySortedByDateAscending,
   selectAllHistorySortedByDateDescending,
 } from "./spendingSlice"
+import { generateGivenShouldTestDescription } from "../../utils/generateGivenShouldTestDescription"
 
 const state = {
   spending: {
@@ -62,68 +63,110 @@ const state = {
 }
 
 describe("SpendingSlice Selectors", () => {
-  describe("selectCategory", () => {
-    it("should select the correct category", () => {
-      const selected = selectCategory(state, "groceries")
-      expect(selected.budget).toEqual(100)
-      expect(selected.spendingHistory).toEqual(
-        state.spending.groceries.spendingHistory
-      )
-    })
+  describe("selectCategoryState", () => {
+    it(
+      generateGivenShouldTestDescription({
+        given: "a valid category name",
+        should: "return the budget and history of said category",
+      }),
+      () => {
+        const selected = selectCategoryState(state, "groceries")
+        expect(selected.budget).toEqual(100)
+        expect(selected.spendingHistory).toEqual(
+          state.spending.groceries.spendingHistory
+        )
+      }
+    )
   })
 
   describe("selectCategoryHistory", () => {
-    it("should select all the history of a category", () => {
-      const selected = selectCategoryHistory(state, "groceries")
-      expect(selected).toEqual(state.spending.groceries.spendingHistory)
-    })
+    it(
+      generateGivenShouldTestDescription({
+        given: "a valid category name",
+        should: "return the history of said category",
+      }),
+      () => {
+        const selected = selectCategoryHistory(state, "groceries")
+        expect(selected).toEqual(state.spending.groceries.spendingHistory)
+      }
+    )
   })
 
-  describe("selectSpentBudget", () => {
-    it("should calculate money spent on a category", () => {
-      const selected = selectSpentBudget(state, "groceries")
-      expect(selected).toEqual(60)
-    })
+  describe("selectSpentBudgetByCategory", () => {
+    it(
+      generateGivenShouldTestDescription({
+        given: "a valid category name",
+        should: "calculate the total amount spent on said category",
+      }),
+      () => {
+        const selected = selectSpentBudgetByCategory(state, "groceries")
+        expect(selected).toEqual(60)
+      }
+    )
   })
 
   describe("selectAllHistorySortedByDateAscending", () => {
-    it("should get all records and sort them by the latest date", () => {
-      const selected = selectAllHistorySortedByDateAscending(state)
-      expect(selected.length).toEqual(5)
-      expect(selected[0].date).toEqual(new Date("2020-01-05"))
-      expect(selected[4].date).toEqual(new Date("2020-01-01"))
-    })
+    it(
+      generateGivenShouldTestDescription({
+        when: "called",
+        should: "get all records and sorted by the latest date",
+      }),
+      () => {
+        const selected = selectAllHistorySortedByDateAscending(state)
+        expect(selected.length).toEqual(5)
+        expect(selected[0].date).toEqual(new Date("2020-01-05"))
+        expect(selected[4].date).toEqual(new Date("2020-01-01"))
+      }
+    )
   })
 
   describe("selectAllHistorySortedByDateDescending", () => {
-    it("should get all records and sort them by the oldest date", () => {
-      const selected = selectAllHistorySortedByDateDescending(state)
-      expect(selected.length).toEqual(5)
-      expect(selected[0].date).toEqual(new Date("2020-01-01"))
-      expect(selected[4].date).toEqual(new Date("2020-01-05"))
-    })
+    it(
+      generateGivenShouldTestDescription({
+        when: "called",
+        should: "get all records and sorted by the oldest date",
+      }),
+      () => {
+        const selected = selectAllHistorySortedByDateDescending(state)
+        expect(selected.length).toEqual(5)
+        expect(selected[0].date).toEqual(new Date("2020-01-01"))
+        expect(selected[4].date).toEqual(new Date("2020-01-05"))
+      }
+    )
   })
 
-  describe("selectAllSpendingCategories", () => {
-    it("should get all the spending categories", () => {
-      const selected = selectAllSpendingCategories(state)
+  describe("selectAllSpendingCategoryNames", () => {
+    it(
+      generateGivenShouldTestDescription({
+        when: "called",
+        should: "get all the spending categories",
+      }),
+      () => {
+        const selected = selectAllSpendingCategoryNames(state)
 
-      const expected: BaseCategory[] = [
-        "bills",
-        "eating out",
-        "entertainment",
-        "groceries",
-        "others",
-      ]
+        const expected: BaseCategory[] = [
+          "bills",
+          "eating out",
+          "entertainment",
+          "groceries",
+          "others",
+        ]
 
-      selected.forEach((category) => expect(expected).toContain(category))
-    })
+        selected.forEach((category) => expect(expected).toContain(category))
+      }
+    )
   })
 
   describe("selectTotalSpentBudget", () => {
-    it("should calculate all spent budget", () => {
-      const selected = selectTotalSpentBudget(state)
-      expect(selected).toEqual(140)
-    })
+    it(
+      generateGivenShouldTestDescription({
+        when: "called",
+        should: "calculate all spent budget",
+      }),
+      () => {
+        const selected = selectTotalSpentBudget(state)
+        expect(selected).toEqual(140)
+      }
+    )
   })
 })
