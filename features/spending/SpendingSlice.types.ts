@@ -14,7 +14,10 @@ export type BaseCategory =
   | "bills"
   | "others"
 
-export type CategoryState = { spendingHistory: SpendingItem[]; budget: number }
+export type CategoryState = {
+  spendingHistory: SpendingItem[] | []
+  budget: number
+}
 
 export type SpendingState = {
   [T in Category]: CategoryState

@@ -15,6 +15,7 @@ import {
   SpendingState,
   Category,
   SpendingItem,
+  CategoryState,
 } from "./SpendingSlice.types"
 
 export const initialState: SpendingState = {
@@ -76,7 +77,7 @@ export const {
 } = spendingSlice.actions
 
 //selectors
-export const selectCategory = (state: any, category: Category) =>
+export const selectCategory = (state: any, category: Category): CategoryState =>
   state.spending[category]
 
 export const selectCategoryHistory = (
@@ -84,9 +85,9 @@ export const selectCategoryHistory = (
   category: Category
 ): SpendingItem[] => state.spending[category].spendingHistory
 
-export const selectSpentBudget = (state: any, category: Category) => {
-  const { spendingHistory } = selectCategory(state, category)
-  calculateTotalSpentBudget(spendingHistory)
+export const selectSpentBudget = (state: any, category: Category): number => {
+  const spendingHistory = selectCategoryHistory(state, category)
+  return calculateTotalSpentBudget(spendingHistory)
 }
 
 export default spendingSlice.reducer
