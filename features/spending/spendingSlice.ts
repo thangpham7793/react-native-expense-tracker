@@ -1,5 +1,20 @@
-import { AppState } from "./../../app/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+
+import {
+  addId,
+  calculateTotalSpentBudget,
+  deleteItem,
+  updateItem,
+} from "./spendingSlice.helpers"
+
+import {
+  AddItem,
+  DeleteItem,
+  EditItem,
+  SetCategoryBudget,
+  SpendingState,
+  Category,
+} from "./SpendingSlice.types"
 
 const initialState: SpendingState = {
   groceries: { spendingHistory: [], budget: 0 },
@@ -7,105 +22,67 @@ const initialState: SpendingState = {
   "eating out": { spendingHistory: [], budget: 0 },
   others: { spendingHistory: [], budget: 0 },
   bills: { spendingHistory: [], budget: 0 },
-};
-
-function getItemIndex(
-  spendingHistory: SpendingItem[],
-  targetItem: SpendingItem
-) {
-  return spendingHistory.findIndex((item) => (item.id = targetItem.id));
 }
-
-function updateItemInfo(
-  spendingHistory: SpendingItem[],
-  targetItem: SpendingItem
-) {
-  const targetItemIndex = getItemIndex(spendingHistory, targetItem);
-  spendingHistory[targetItemIndex] = targetItem;
-}
-
-type SetBudgetActionPayload = {
-  category: Category;
-  budget: number;
-};
-
-type CRUDSpendingItemPayload = {
-  category: Category;
-  spendingItem: SpendingItem;
-};
-
-type EditSpendingItemPayload = {
-  category: Category;
-  updatedSpendingItem: SpendingItem;
-};
 
 export const spendingSlice = createSlice({
   name: "spending",
   initialState,
   reducers: {
-    setBudget: (
-      state,
-      action: { type: string; payload: SetBudgetActionPayload }
-    ) => {
-      const { category, budget } = action.payload;
-      state[category].budget = budget;
+    setTestState: (state, action: PayloadAction<SpendingState>) => {
+      return { ...state, ...action.payload }
+    },
+
+    setCategoryBudget: (state, action: PayloadAction<SetCategoryBudget>) => {
+      const { category, budget } = action.payload
+      state[category].budget = budget
     },
 
     addSpendingItem: {
-      reducer(
-        state,
-        action: {
-          type: string;
-          payload: { category: Category; spendingItem: SpendingItem };
-        }
-      ) {
-        const { category, spendingItem } = action.payload;
-        state[category].spendingHistory.push(spendingItem);
+      reducer(state, action: PayloadAction<AddItem>) {
+        const { category, spendingItem } = action.payload
+        state[category].spendingHistory.push(spendingItem)
       },
 
-      prepare(newItem: { category: Category; spendingItem: SpendingItem }) {
-        newItem.spendingItem.id = `${newItem.category}-${newItem.spendingItem.date}`;
+      prepare(newItem: AddItem) {
+        const item = addId(newItem)
         return {
           payload: {
-            ...newItem,
+            ...item,
           },
-        };
+        }
       },
     },
 
-    removeSpendingItem: (
-      state,
-      action: { type: string; payload: CRUDSpendingItemPayload }
-    ) => {
-      const { category, spendingItem } = action.payload;
+    deleteSpendingItem: (state, action: PayloadAction<DeleteItem>) => {
+      const { category, spendingItemId } = action.payload
+      deleteItem(state[category].spendingHistory, spendingItemId)
     },
 
-    editSpendingItem: (
-      state,
-      action: { type: string; payload: EditSpendingItemPayload }
-    ) => {
-      const { category, updatedSpendingItem } = action.payload;
-      updateItemInfo(state[category].spendingHistory, updatedSpendingItem);
+    editSpendingItem: (state, action: PayloadAction<EditItem>) => {
+      const { category, updatedSpendingItem } = action.payload
+      updateItem(state[category].spendingHistory, updatedSpendingItem)
     },
   },
-});
+})
 
-export const selectCategory = (state: AppState, category: Category) =>
-  state.spending[category];
+//reducers
+export const {
+  addSpendingItem,
+  deleteSpendingItem,
+  editSpendingItem,
+  setCategoryBudget,
+} = spendingSlice.actions
 
-export const selectCategoryHistory = (state: AppState, category: Category) =>
-  state.spending[category].spendingHistory;
+//selectors
+export const selectCategory = (state: any, category: Category) =>
+  state.spending[category]
 
-function calculateTotalSpentBudget(spendingHistory: SpendingItem[]) {
-  return spendingHistory.reduce(
-    (total: number, { amount }: SpendingItem) => total + amount,
-    0
-  );
+export const selectCategoryHistory = (state: any, category: Category) =>
+  state.spending[category].spendingHistory
+
+export const selectSpentBudget = (state: any, category: Category) => {
+  const { spendingHistory } = selectCategory(state, category)
+  calculateTotalSpentBudget(spendingHistory)
 }
 
-export const selectSpentBudget = (state: AppState, category: Category) => {
-  const { spendingHistory } = selectCategory(state, category);
-  calculateTotalSpentBudget(spendingHistory);
-};
-
-export default spendingSlice.reducer;
+export default spendingSlice.reducer

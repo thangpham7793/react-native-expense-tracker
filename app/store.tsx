@@ -7,5 +7,3 @@ export const store = configureStore({
     spending: spendingReducer,
   },
 });
-
-export type AppState = typeof store;
