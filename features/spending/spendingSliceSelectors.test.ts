@@ -12,53 +12,56 @@ import { generateGivenShouldTestDescription } from "../../utils/generateGivenSho
 
 const state = {
   spending: {
-    groceries: {
-      spendingHistory: [
-        {
-          amount: 20,
-          date: new Date("2020-01-03"),
-          note: "Testing",
-          id: `groceries-${new Date("2020-01-03").getTime()}`,
-        },
-        {
-          amount: 20,
-          date: new Date("2020-01-05"),
-          note: "Latest",
-          id: `groceries-${new Date("2020-01-05").getTime()}`,
-        },
-        {
-          amount: 20,
-          date: new Date("2020-01-01"),
-          note: "Oldest",
-          id: `groceries-${new Date("2020-01-01").getTime()}`,
-        },
-      ],
-      budget: 100,
+    firstTimeUser: true,
+    categories: {
+      groceries: {
+        spendingHistory: [
+          {
+            amount: 20,
+            date: new Date("2020-01-03"),
+            note: "Testing",
+            id: `groceries-${new Date("2020-01-03").getTime()}`,
+          },
+          {
+            amount: 20,
+            date: new Date("2020-01-05"),
+            note: "Latest",
+            id: `groceries-${new Date("2020-01-05").getTime()}`,
+          },
+          {
+            amount: 20,
+            date: new Date("2020-01-01"),
+            note: "Oldest",
+            id: `groceries-${new Date("2020-01-01").getTime()}`,
+          },
+        ],
+        budget: 100,
+      },
+      entertainment: {
+        spendingHistory: [
+          {
+            amount: 40,
+            date: new Date("2020-01-04"),
+            note: "Testing",
+            id: `entertainment-${new Date("2020-01-04").getTime()}`,
+          },
+        ],
+        budget: 100,
+      },
+      "eating out": {
+        spendingHistory: [
+          {
+            amount: 40,
+            date: new Date("2020-01-02"),
+            note: "Testing",
+            id: `eating out-${new Date("2020-01-02").getTime()}`,
+          },
+        ],
+        budget: 100,
+      },
+      others: { spendingHistory: [], budget: 100 },
+      bills: { spendingHistory: [], budget: 100 },
     },
-    entertainment: {
-      spendingHistory: [
-        {
-          amount: 40,
-          date: new Date("2020-01-04"),
-          note: "Testing",
-          id: `entertainment-${new Date("2020-01-04").getTime()}`,
-        },
-      ],
-      budget: 100,
-    },
-    "eating out": {
-      spendingHistory: [
-        {
-          amount: 40,
-          date: new Date("2020-01-02"),
-          note: "Testing",
-          id: `eating out-${new Date("2020-01-02").getTime()}`,
-        },
-      ],
-      budget: 100,
-    },
-    others: { spendingHistory: [], budget: 100 },
-    bills: { spendingHistory: [], budget: 100 },
   },
 }
 
@@ -73,7 +76,7 @@ describe("SpendingSlice Selectors", () => {
         const selected = selectCategoryState(state, "groceries")
         expect(selected.budget).toEqual(100)
         expect(selected.spendingHistory).toEqual(
-          state.spending.groceries.spendingHistory
+          state.spending.categories.groceries.spendingHistory
         )
       }
     )
@@ -87,7 +90,9 @@ describe("SpendingSlice Selectors", () => {
       }),
       () => {
         const selected = selectCategoryHistory(state, "groceries")
-        expect(selected).toEqual(state.spending.groceries.spendingHistory)
+        expect(selected).toEqual(
+          state.spending.categories.groceries.spendingHistory
+        )
       }
     )
   })

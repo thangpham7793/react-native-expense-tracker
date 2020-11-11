@@ -24,11 +24,14 @@ import {
 } from "./SpendingSlice.types"
 
 export const initialState: SpendingState = {
-  groceries: { spendingHistory: [], budget: 0 },
-  entertainment: { spendingHistory: [], budget: 0 },
-  "eating out": { spendingHistory: [], budget: 0 },
-  others: { spendingHistory: [], budget: 0 },
-  bills: { spendingHistory: [], budget: 0 },
+  firstTimeUser: true,
+  categories: {
+    groceries: { spendingHistory: [], budget: 0 },
+    entertainment: { spendingHistory: [], budget: 0 },
+    "eating out": { spendingHistory: [], budget: 0 },
+    others: { spendingHistory: [], budget: 0 },
+    bills: { spendingHistory: [], budget: 0 },
+  },
 }
 
 export const spendingSlice = createSlice({
@@ -41,13 +44,13 @@ export const spendingSlice = createSlice({
 
     setCategoryBudget: (state, action: PayloadAction<SetCategoryBudget>) => {
       const { category, budget } = action.payload
-      state[category].budget = budget
+      state.categories[category].budget = budget
     },
 
     addSpendingItem: {
       reducer(state, action: PayloadAction<AddItem>) {
         const { category, spendingItem } = action.payload
-        state[category].spendingHistory.push(spendingItem)
+        state.categories[category].spendingHistory.push(spendingItem)
       },
 
       prepare(newItem: AddItem) {
@@ -62,20 +65,23 @@ export const spendingSlice = createSlice({
 
     deleteSpendingItem: (state, action: PayloadAction<DeleteItem>) => {
       const { category, spendingItemId } = action.payload
-      deleteItem(state[category].spendingHistory, spendingItemId)
+      deleteItem(state.categories[category].spendingHistory, spendingItemId)
     },
     updateSpendingItem: (state, action: PayloadAction<UpdateItem>) => {
       const { category, updatedSpendingItem } = action.payload
-      updateItem(state[category].spendingHistory, updatedSpendingItem)
+      updateItem(
+        state.categories[category].spendingHistory,
+        updatedSpendingItem
+      )
     },
 
     addCategory: (state, action: PayloadAction<AddCategory>) => {
       const { category, budget } = action.payload
-      state[category] = { budget, spendingHistory: [] }
+      state.categories[category] = { budget, spendingHistory: [] }
     },
 
     deleteCategory: (state, action: PayloadAction<DeleteCategory>) => {
-      delete state[action.payload.category]
+      delete state.categories[action.payload.category]
     },
 
     updateCategory: (state, action: PayloadAction<UpdateCategory>) => {
@@ -87,14 +93,14 @@ export const spendingSlice = createSlice({
 
       const newBudget = updatedBudget
         ? updatedBudget
-        : state[previousCategory].budget
+        : state.categories[previousCategory].budget
 
       if (previousCategory === updatedCategory) {
-        state[previousCategory].budget = newBudget
+        state.categories[previousCategory].budget = newBudget
       } else {
-        state[updatedCategory] = state[previousCategory]
-        state[updatedCategory].budget = newBudget
-        delete state[previousCategory]
+        state.categories[updatedCategory] = state.categories[previousCategory]
+        state.categories[updatedCategory].budget = newBudget
+        delete state.categories[previousCategory]
       }
     },
   },
@@ -113,12 +119,12 @@ export const {
 export const selectCategoryState = (
   state: any,
   category: Category
-): CategoryState => state.spending[category]
+): CategoryState => state.spending.categories[category]
 
 export const selectCategoryHistory = (
   state: any,
   category: Category
-): SpendingItem[] => state.spending[category].spendingHistory
+): SpendingItem[] => state.spending.categories[category].spendingHistory
 
 export const selectSpentBudgetByCategory = (
   state: any,
@@ -128,7 +134,7 @@ export const selectSpentBudgetByCategory = (
 }
 
 export const selectAllSpendingCategoryNames = (state: any): Category[] =>
-  Object.keys(state.spending)
+  Object.keys(state.spending.categories)
 
 export const selectAllHistoryUnsorted = (state: any): SpendingItem[] => {
   return selectAllSpendingCategoryNames(state).flatMap((category) =>

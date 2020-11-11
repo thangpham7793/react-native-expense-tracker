@@ -20,7 +20,10 @@ export type CategoryState = {
 }
 
 export type SpendingState = {
-  [T in Category]: CategoryState
+  firstTimeUser: boolean
+  categories: {
+    [T in Category]: CategoryState
+  }
 }
 
 export type SetCategoryBudget = {
