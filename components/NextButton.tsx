@@ -1,10 +1,15 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { Button } from "react-native-paper"
 
-export default function NextButton() {
+interface NextButtonProp {
+  content: string
+  onPress: () => void
+}
+
+export default function NextButton({ onPress, content }: NextButtonProp) {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Button mode="contained" onPress={onPress}>
+      {content}
+    </Button>
   )
 }

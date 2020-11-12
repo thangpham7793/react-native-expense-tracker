@@ -1,5 +1,4 @@
 import React from "react"
-import { calculateTotalSpentBudget } from "../features/spending/spendingSlice.helpers"
 import { layoutStyles } from "../styles/Layout"
 import CenteredContainer from "./CenteredContainer"
 
@@ -34,7 +33,7 @@ export default function ColumnFlexLayout({
         <CenteredContainer
           style={showBorder ? layoutStyles.debugBorderStyle : undefined}
           key={index}
-          size={sizeRatio[index]}
+          size={sizeRatio && sizeRatio[index]}
           children={children}
         />
       ))}

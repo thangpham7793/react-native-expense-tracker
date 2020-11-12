@@ -3,7 +3,6 @@ import React from "react"
 
 //common
 import Header from "../../components/Header"
-import CenteredContainer from "../../components/CenteredContainer"
 
 //types
 import { StackNavigationProp } from "@react-navigation/stack"
@@ -11,8 +10,8 @@ import { RootStackParamsList } from "../../AppContent"
 
 //specific
 import AppLogo from "./components/AppLogo"
-import NextButton from "./components/NextButton"
 import ColumnFlexLayout from "../../components/ColumnFlexLayout"
+import NextButton from "../../components/NextButton"
 
 // https://reactnavigation.org/docs/typescript/
 
@@ -35,7 +34,10 @@ export default function Welcome({ navigation }: WelcomeProps) {
       children={[
         <Header content="stay on top of your money!" />,
         <AppLogo />,
-        <NextButton onPress={navigateToNextScreen} />,
+        <NextButton
+          onPress={navigateToNextScreen}
+          content="Set Spending Categories"
+        />,
       ]}
     />
   )

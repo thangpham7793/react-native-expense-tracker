@@ -30,7 +30,7 @@ export function AppContent() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name={"Welcome"} component={Welcome} />
         <Stack.Screen name="Pick Categories" component={PickCategories} />
         <Stack.Screen name="Set Budgets" component={SetBudgets} />
       </Stack.Navigator>
