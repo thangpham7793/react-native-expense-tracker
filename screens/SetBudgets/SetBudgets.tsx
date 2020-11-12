@@ -4,13 +4,13 @@ import CenteredContainer from "../../components/CenteredContainer"
 import Header from "../../components/Header"
 import ThreePartColumnFlexLayout from "../../components/ThreePartColumnFlexLayout"
 
-export default function PickCategories() {
+export default function SetBudgets() {
   return (
     <ThreePartColumnFlexLayout
       children={[
-        <Header content="Categories" style={{ fontSize: 30 }} />,
-        <Header content="Pick Categories" />,
-        <Header content="Pick Categories" />,
+        <Header content="Set Budgets" />,
+        <Header content="Set Budgets" />,
+        <Header content="Set Budgets" />,
       ]}
     />
   )

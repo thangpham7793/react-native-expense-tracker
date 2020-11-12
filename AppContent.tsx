@@ -7,7 +7,7 @@ import { AppReduxState } from "./app/store"
 import Welcome from "./screens/Welcome/Welcome"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import SetBudgets from "./screens/SetBudget/SetBudgets"
+import SetBudgets from "./screens/SetBudgets/SetBudgets"
 import PickCategories from "./screens/PickCategories/PickCategories"
 
 export type RootStackParamsList = {

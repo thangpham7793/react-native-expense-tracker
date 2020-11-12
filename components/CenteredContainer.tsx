@@ -13,7 +13,12 @@ export default function CenteredContainer({
   style,
   size = 12,
 }: CenteredContainerProps) {
-  const styles = { ...layoutStyles.centered, flex: size / 12, ...style }
+  const styles = {
+    ...layoutStyles.centered,
+    flex: size / 12,
+    width: "100%",
+    ...style,
+  }
 
   return <View style={styles}>{children}</View>
 }

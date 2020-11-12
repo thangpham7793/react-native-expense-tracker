@@ -1,12 +1,18 @@
+//lib
 import React from "react"
-import { Image } from "react-native"
-import { Button } from "react-native-paper"
 
+//common
 import Header from "../../components/Header"
 import CenteredContainer from "../../components/CenteredContainer"
 
+//types
 import { StackNavigationProp } from "@react-navigation/stack"
 import { RootStackParamsList } from "../../AppContent"
+
+//specific
+import AppLogo from "./components/AppLogo"
+import NextButton from "./components/NextButton"
+import ThreePartColumnFlexLayout from "../../components/ThreePartColumnFlexLayout"
 
 // https://reactnavigation.org/docs/typescript/
 
@@ -20,25 +26,17 @@ interface WelcomeProps {
 }
 
 export default function Welcome({ navigation }: WelcomeProps) {
+  function navigateToNextScreen() {
+    navigation.navigate("Pick Categories")
+  }
+
   return (
-    <CenteredContainer>
-      <CenteredContainer size={4}>
-        <Header content="stay on top of your money!" />
-      </CenteredContainer>
-      <CenteredContainer size={4}>
-        <Image
-          source={require("../../assets/wallet.png")}
-          style={{ width: 400, height: 400 }}
-        />
-      </CenteredContainer>
-      <CenteredContainer size={4}>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Pick Categories")}
-        >
-          Set Up My Budgets!
-        </Button>
-      </CenteredContainer>
-    </CenteredContainer>
+    <ThreePartColumnFlexLayout
+      children={[
+        <Header content="stay on top of your money!" />,
+        <AppLogo />,
+        <NextButton onPress={navigateToNextScreen} />,
+      ]}
+    />
   )
 }
