@@ -8,17 +8,20 @@ import {
   DeleteCategory,
   UpdateCategory,
 } from "./SpendingSlice.types"
+
 import {
   spendingSlice,
-  initialState,
+  initialState as emptyState,
   selectAllSpendingCategoryNames,
 } from "./spendingSlice"
+
 import { generateGivenShouldTestDescription } from "../../utils/generateGivenShouldTestDescription"
+
 const { actions, reducer } = spendingSlice
 
 //reference: https://github.com/reduxjs/redux-toolkit/blob/master/src/createSlice.test.ts
 
-const initialSpendingState: SpendingState = {
+const initialState: SpendingState = {
   firstTimeUser: true,
   categories: {
     groceries: {
@@ -68,10 +71,10 @@ describe("SpendingSlice Actions", () => {
       }),
       () => {
         const newState = reducer(
-          initialState,
-          actions.setSpendingState(initialSpendingState)
+          emptyState,
+          actions.setSpendingState(initialState)
         )
-        expect(newState).toEqual(initialSpendingState)
+        expect(newState).toEqual(initialState)
       }
     )
   })
@@ -98,10 +101,7 @@ describe("SpendingSlice Actions", () => {
           id: `groceries-${new Date("2020-01-01").getTime()}`,
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.addSpendingItem(payload)
-        )
+        const newState = reducer(initialState, actions.addSpendingItem(payload))
 
         expect(newState.categories.groceries.spendingHistory).toContainEqual(
           expected
@@ -123,12 +123,12 @@ describe("SpendingSlice Actions", () => {
         }
 
         const newState = reducer(
-          initialSpendingState,
+          initialState,
           actions.deleteSpendingItem(payload)
         )
 
         expect(
-          initialSpendingState.categories.entertainment.spendingHistory.length
+          initialState.categories.entertainment.spendingHistory.length
         ).toBe(1)
         expect(newState.categories.entertainment.spendingHistory.length).toBe(0)
       }
@@ -154,7 +154,7 @@ describe("SpendingSlice Actions", () => {
         }
 
         const newState = reducer(
-          initialSpendingState,
+          initialState,
           actions.updateSpendingItem(payload)
         )
 
@@ -178,11 +178,11 @@ describe("SpendingSlice Actions", () => {
         }
 
         const newState = reducer(
-          initialSpendingState,
+          initialState,
           actions.setCategoryBudget(payload)
         )
 
-        expect(initialSpendingState.categories["eating out"].budget).toBe(100)
+        expect(initialState.categories["eating out"].budget).toBe(100)
         expect(newState.categories["eating out"].budget).toBe(120)
       }
     )
@@ -200,10 +200,7 @@ describe("SpendingSlice Actions", () => {
           budget: 120,
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.addCategory(payload)
-        )
+        const newState = reducer(initialState, actions.addCategory(payload))
 
         expect(newState.categories).toHaveProperty("new category")
         expect(newState.categories["new category"].budget).toBe(120)
@@ -228,16 +225,13 @@ describe("SpendingSlice Actions", () => {
           category: "groceries",
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.deleteCategory(payload)
-        )
+        const newState = reducer(initialState, actions.deleteCategory(payload))
 
-        const newCategories = selectAllSpendingCategoryNames({
+        const existingCategories = selectAllSpendingCategoryNames({
           spending: newState,
         })
 
-        expect(newCategories.includes("groceries")).toBe(false)
+        expect(existingCategories.includes("groceries")).toBe(false)
         expect(newState.categories.groceries).toBe(undefined)
       }
     )
@@ -256,18 +250,15 @@ describe("SpendingSlice Actions", () => {
           updatedBudget: 150,
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.updateCategory(payload)
-        )
+        const newState = reducer(initialState, actions.updateCategory(payload))
 
-        const newCategories = selectAllSpendingCategoryNames({
+        const existingCategories = selectAllSpendingCategoryNames({
           spending: newState,
         })
 
-        expect(newCategories.includes("groceries")).toBe(true)
+        expect(existingCategories.includes("groceries")).toBe(true)
         expect(newState.categories.groceries.spendingHistory).toStrictEqual(
-          initialSpendingState.categories.groceries.spendingHistory
+          initialState.categories.groceries.spendingHistory
         )
         expect(newState.categories.groceries.budget).toBe(150)
       }
@@ -284,19 +275,16 @@ describe("SpendingSlice Actions", () => {
           updatedCategory: "food",
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.updateCategory(payload)
-        )
+        const newState = reducer(initialState, actions.updateCategory(payload))
 
-        const allCategories = selectAllSpendingCategoryNames({
+        const existingCategories = selectAllSpendingCategoryNames({
           spending: newState,
         })
 
-        expect(allCategories.includes("groceries")).toBe(false)
-        expect(allCategories.includes("food")).toBe(true)
+        expect(existingCategories.includes("groceries")).toBe(false)
+        expect(existingCategories.includes("food")).toBe(true)
         expect(newState.categories.food).toStrictEqual(
-          initialSpendingState.categories.groceries
+          initialState.categories.groceries
         )
       }
     )
@@ -313,19 +301,16 @@ describe("SpendingSlice Actions", () => {
           updatedBudget: 150,
         }
 
-        const newState = reducer(
-          initialSpendingState,
-          actions.updateCategory(payload)
-        )
+        const newState = reducer(initialState, actions.updateCategory(payload))
 
-        const allCategories = selectAllSpendingCategoryNames({
+        const existingCategories = selectAllSpendingCategoryNames({
           spending: newState,
         })
 
-        expect(allCategories.includes("groceries")).toBe(false)
-        expect(allCategories.includes("food")).toBe(true)
+        expect(existingCategories.includes("groceries")).toBe(false)
+        expect(existingCategories.includes("food")).toBe(true)
         expect(newState.categories.food.spendingHistory).toStrictEqual(
-          initialSpendingState.categories.groceries.spendingHistory
+          initialState.categories.groceries.spendingHistory
         )
         expect(newState.categories.food.budget).toBe(payload.updatedBudget)
       }
