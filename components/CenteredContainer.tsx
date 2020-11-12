@@ -6,15 +6,18 @@ interface CenteredContainerProps {
   children: JSX.Element | JSX.Element[]
   style?: ViewStyle
   size?: number
+  flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"
 }
 
 export default function CenteredContainer({
   children,
   style,
   size = 12,
+  flexDirection = "column",
 }: CenteredContainerProps) {
-  const styles = {
+  const styles: ViewStyle = {
     ...layoutStyles.centered,
+    flexDirection,
     flex: size / 12,
     width: "100%",
     ...style,

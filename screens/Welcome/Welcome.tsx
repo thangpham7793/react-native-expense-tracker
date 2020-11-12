@@ -10,7 +10,7 @@ import { RootStackScreenParams } from "../../AppContent"
 
 //specific
 import AppLogo from "./components/AppLogo"
-import ColumnFlexLayout from "../../components/ColumnFlexLayout"
+import FlexLayout from "../../components/FlexLayout"
 import NextButton from "../../components/NextButton"
 
 // https://reactnavigation.org/docs/typescript/
@@ -26,7 +26,7 @@ interface WelcomeProps {
 
 export default function Welcome({ navigation }: WelcomeProps) {
   return (
-    <ColumnFlexLayout
+    <FlexLayout
       children={[
         <Header content="stay on top of your money!" />,
         <AppLogo />,

@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "../../components/Header"
-import ColumnFlexLayout from "../../components/ColumnFlexLayout"
+import FlexLayout from "../../components/FlexLayout"
 import { useSelector } from "react-redux"
 import { selectAllSpendingCategoryNames } from "../../features/spending/spendingSlice"
 import PickCategoriesForm from "./components/PickCategoriesForm"
@@ -20,7 +20,7 @@ export default function PickCategories({ navigation }: PickCategoriesProp) {
   const categories = useSelector(selectAllSpendingCategoryNames)
 
   return (
-    <ColumnFlexLayout
+    <FlexLayout
       sizeRatio={[4, 8]}
       children={[
         <Header content="Categories" style={{ fontSize: 30 }} />,

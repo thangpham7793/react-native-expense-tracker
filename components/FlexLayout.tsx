@@ -2,17 +2,19 @@ import React from "react"
 import { layoutStyles } from "../styles/Layout"
 import CenteredContainer from "./CenteredContainer"
 
-interface ColumnFlexLayoutProp {
+interface FlexLayoutProp {
   children: (JSX.Element | JSX.Element[])[]
   sizeRatio?: number[]
   showDebuggingBorder?: boolean
+  flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"
 }
 
-export default function ColumnFlexLayout({
+export default function FlexLayout({
   children,
   sizeRatio,
   showDebuggingBorder = false,
-}: ColumnFlexLayoutProp) {
+  flexDirection = "column",
+}: FlexLayoutProp) {
   if (!sizeRatio) {
     sizeRatio = Array(children.length).fill(12 / children.length)
   }
@@ -28,6 +30,7 @@ export default function ColumnFlexLayout({
   return (
     <CenteredContainer
       style={showDebuggingBorder ? layoutStyles.debugBorderStyle : undefined}
+      flexDirection={flexDirection}
     >
       {children.map((children, index) => (
         <CenteredContainer
