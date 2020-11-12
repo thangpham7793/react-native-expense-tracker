@@ -9,4 +9,8 @@ export const layoutStyles: Layout = {
     alignItems: "center",
     justifyContent: "center",
   },
+  debugBorderStyle: {
+    borderColor: "red",
+    borderWidth: 1,
+  },
 }

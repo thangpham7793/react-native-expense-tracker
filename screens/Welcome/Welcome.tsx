@@ -12,7 +12,7 @@ import { RootStackParamsList } from "../../AppContent"
 //specific
 import AppLogo from "./components/AppLogo"
 import NextButton from "./components/NextButton"
-import ThreePartColumnFlexLayout from "../../components/ThreePartColumnFlexLayout"
+import ColumnFlexLayout from "../../components/ColumnFlexLayout"
 
 // https://reactnavigation.org/docs/typescript/
 
@@ -31,7 +31,7 @@ export default function Welcome({ navigation }: WelcomeProps) {
   }
 
   return (
-    <ThreePartColumnFlexLayout
+    <ColumnFlexLayout
       children={[
         <Header content="stay on top of your money!" />,
         <AppLogo />,
