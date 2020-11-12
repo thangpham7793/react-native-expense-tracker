@@ -251,7 +251,7 @@ describe("SpendingSlice Actions", () => {
       }),
       () => {
         const payload: UpdateCategory = {
-          previousCategory: "groceries",
+          currentCategory: "groceries",
           updatedCategory: "groceries",
           updatedBudget: 150,
         }
@@ -280,7 +280,7 @@ describe("SpendingSlice Actions", () => {
       }),
       () => {
         const payload: UpdateCategory = {
-          previousCategory: "groceries",
+          currentCategory: "groceries",
           updatedCategory: "food",
         }
 
@@ -308,7 +308,7 @@ describe("SpendingSlice Actions", () => {
       }),
       () => {
         const payload: UpdateCategory = {
-          previousCategory: "groceries",
+          currentCategory: "groceries",
           updatedCategory: "food",
           updatedBudget: 150,
         }
