@@ -1,18 +1,40 @@
 import React from "react"
 import { StatusBar } from "expo-status-bar"
-import { StyleSheet, View, Text } from "react-native"
+import { StyleSheet, View } from "react-native"
 import BottomNav from "./components/BottomNav"
 import { useSelector } from "react-redux"
 import { AppReduxState } from "./app/store"
-import Welcome from "./screens/Welcome"
+import Welcome from "./screens/Welcome/Welcome"
+import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
+import SetBudgets from "./screens/SetBudget/SetBudgets"
+import PickCategories from "./screens/PickCategories/PickCategories"
+
+export type RootStackParamsList = {
+  Welcome: undefined
+  "Pick Categories": undefined
+  "Set Budgets": undefined
+}
 
 export function AppContent() {
   const firstTimeUser = useSelector(
     (state: AppReduxState) => state.spending.firstTimeUser
   )
 
+  const Stack = createStackNavigator<RootStackParamsList>()
+
   return firstTimeUser ? (
-    <Welcome />
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Pick Categories" component={PickCategories} />
+        <Stack.Screen name="Set Budgets" component={SetBudgets} />
+      </Stack.Navigator>
+    </NavigationContainer>
   ) : (
     <View style={styles.container}>
       <StatusBar />
