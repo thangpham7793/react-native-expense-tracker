@@ -26,11 +26,11 @@ import {
 export const initialState: SpendingState = {
   firstTimeUser: true,
   categories: {
-    groceries: { spendingHistory: [], budget: 0 },
-    entertainment: { spendingHistory: [], budget: 0 },
-    "eating out": { spendingHistory: [], budget: 0 },
-    others: { spendingHistory: [], budget: 0 },
-    bills: { spendingHistory: [], budget: 0 },
+    groceries: { spendingHistory: [], weeklyBudget: 0 },
+    entertainment: { spendingHistory: [], weeklyBudget: 0 },
+    "eating out": { spendingHistory: [], weeklyBudget: 0 },
+    others: { spendingHistory: [], weeklyBudget: 0 },
+    bills: { spendingHistory: [], weeklyBudget: 0 },
   },
 }
 
@@ -43,8 +43,8 @@ export const spendingSlice = createSlice({
     },
 
     setCategoryBudget: (state, action: PayloadAction<SetCategoryBudget>) => {
-      const { category, budget } = action.payload
-      state.categories[category].budget = budget
+      const { category, weeklyBudget } = action.payload
+      state.categories[category].weeklyBudget = weeklyBudget
     },
 
     addSpendingItem: {
@@ -77,8 +77,8 @@ export const spendingSlice = createSlice({
     },
 
     addCategory: (state, action: PayloadAction<AddCategory>) => {
-      const { category, budget } = action.payload
-      state.categories[category] = { spendingHistory: [], budget }
+      const { category, weeklyBudget } = action.payload
+      state.categories[category] = { spendingHistory: [], weeklyBudget }
     },
 
     deleteCategory: (state, action: PayloadAction<DeleteCategory>) => {
@@ -89,7 +89,7 @@ export const spendingSlice = createSlice({
       const { currentCategory, updatedCategory, updatedBudget } = action.payload
 
       if (updatedBudget) {
-        state.categories[currentCategory].budget = updatedBudget
+        state.categories[currentCategory].weeklyBudget = updatedBudget
       }
 
       if (currentCategory !== updatedCategory) {

@@ -1,3 +1,4 @@
+import { AppReduxState } from "./../../app/store"
 import { BaseCategory } from "./SpendingSlice.types"
 import {
   selectCategoryState,
@@ -10,7 +11,7 @@ import {
 } from "./spendingSlice"
 import { generateGivenShouldTestDescription } from "../../utils/generateGivenShouldTestDescription"
 
-const state = {
+const state: Partial<AppReduxState> = {
   spending: {
     firstTimeUser: true,
     categories: {
@@ -35,7 +36,7 @@ const state = {
             id: `groceries-${new Date("2020-01-01").getTime()}`,
           },
         ],
-        budget: 100,
+        weeklyBudget: 100,
       },
       entertainment: {
         spendingHistory: [
@@ -46,7 +47,7 @@ const state = {
             id: `entertainment-${new Date("2020-01-04").getTime()}`,
           },
         ],
-        budget: 100,
+        weeklyBudget: 100,
       },
       "eating out": {
         spendingHistory: [
@@ -57,10 +58,10 @@ const state = {
             id: `eating out-${new Date("2020-01-02").getTime()}`,
           },
         ],
-        budget: 100,
+        weeklyBudget: 100,
       },
-      others: { spendingHistory: [], budget: 100 },
-      bills: { spendingHistory: [], budget: 100 },
+      others: { spendingHistory: [], weeklyBudget: 100 },
+      bills: { spendingHistory: [], weeklyBudget: 100 },
     },
   },
 }
@@ -74,10 +75,13 @@ describe("SpendingSlice Selectors", () => {
       }),
       () => {
         const selected = selectCategoryState(state, "groceries")
-        expect(selected.budget).toEqual(100)
-        expect(selected.spendingHistory).toEqual(
-          state.spending.categories.groceries.spendingHistory
-        )
+        expect(selected.weeklyBudget).toEqual(100)
+
+        if (state.spending) {
+          expect(selected.spendingHistory).toEqual(
+            state.spending.categories.groceries.spendingHistory
+          )
+        }
       }
     )
   })
@@ -90,9 +94,12 @@ describe("SpendingSlice Selectors", () => {
       }),
       () => {
         const selected = selectCategoryHistory(state, "groceries")
-        expect(selected).toEqual(
-          state.spending.categories.groceries.spendingHistory
-        )
+
+        if (state.spending) {
+          expect(selected).toEqual(
+            state.spending.categories.groceries.spendingHistory
+          )
+        }
       }
     )
   })

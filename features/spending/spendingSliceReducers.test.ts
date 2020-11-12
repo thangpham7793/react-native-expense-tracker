@@ -33,7 +33,7 @@ const initialState: SpendingState = {
           id: `groceries-${new Date("2020-01-02").getTime()}`,
         },
       ],
-      budget: 100,
+      weeklyBudget: 100,
     },
     entertainment: {
       spendingHistory: [
@@ -44,7 +44,7 @@ const initialState: SpendingState = {
           id: `entertainment-${new Date("2020-01-02").getTime()}`,
         },
       ],
-      budget: 100,
+      weeklyBudget: 100,
     },
     "eating out": {
       spendingHistory: [
@@ -55,10 +55,10 @@ const initialState: SpendingState = {
           id: `eating out-${new Date("2020-01-03").getTime()}`,
         },
       ],
-      budget: 100,
+      weeklyBudget: 100,
     },
-    others: { spendingHistory: [], budget: 100 },
-    bills: { spendingHistory: [], budget: 100 },
+    others: { spendingHistory: [], weeklyBudget: 100 },
+    bills: { spendingHistory: [], weeklyBudget: 100 },
   },
 }
 
@@ -174,7 +174,7 @@ describe("SpendingSlice Actions", () => {
       () => {
         const payload: SetCategoryBudget = {
           category: "eating out",
-          budget: 120,
+          weeklyBudget: 120,
         }
 
         const newState = reducer(
@@ -182,8 +182,8 @@ describe("SpendingSlice Actions", () => {
           actions.setCategoryBudget(payload)
         )
 
-        expect(initialState.categories["eating out"].budget).toBe(100)
-        expect(newState.categories["eating out"].budget).toBe(120)
+        expect(initialState.categories["eating out"].weeklyBudget).toBe(100)
+        expect(newState.categories["eating out"].weeklyBudget).toBe(120)
       }
     )
   })
@@ -197,13 +197,13 @@ describe("SpendingSlice Actions", () => {
       () => {
         const payload: AddCategory = {
           category: "new category",
-          budget: 120,
+          weeklyBudget: 120,
         }
 
         const newState = reducer(initialState, actions.addCategory(payload))
 
         expect(newState.categories).toHaveProperty("new category")
-        expect(newState.categories["new category"].budget).toBe(120)
+        expect(newState.categories["new category"].weeklyBudget).toBe(120)
         expect(
           newState.categories["new category"].spendingHistory
         ).toBeInstanceOf(Array)
@@ -260,7 +260,7 @@ describe("SpendingSlice Actions", () => {
         expect(newState.categories.groceries.spendingHistory).toStrictEqual(
           initialState.categories.groceries.spendingHistory
         )
-        expect(newState.categories.groceries.budget).toBe(150)
+        expect(newState.categories.groceries.weeklyBudget).toBe(150)
       }
     )
 
@@ -312,7 +312,9 @@ describe("SpendingSlice Actions", () => {
         expect(newState.categories.food.spendingHistory).toStrictEqual(
           initialState.categories.groceries.spendingHistory
         )
-        expect(newState.categories.food.budget).toBe(payload.updatedBudget)
+        expect(newState.categories.food.weeklyBudget).toBe(
+          payload.updatedBudget
+        )
       }
     )
   })

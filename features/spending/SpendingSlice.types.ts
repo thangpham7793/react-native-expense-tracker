@@ -16,7 +16,7 @@ export type BaseCategory =
 
 export type CategoryState = {
   spendingHistory: SpendingItem[]
-  budget: number
+  weeklyBudget: number
 }
 
 export type SpendingState = {
@@ -28,7 +28,7 @@ export type SpendingState = {
 
 export type SetCategoryBudget = {
   category: Category
-  budget: number
+  weeklyBudget: number
 }
 
 export type AddItem = {
@@ -48,7 +48,7 @@ export type UpdateItem = {
 
 export type AddCategory = {
   category: Category
-  budget: number
+  weeklyBudget: number
 }
 export type DeleteCategory = {
   category: Category
