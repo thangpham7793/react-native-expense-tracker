@@ -1,11 +1,22 @@
 import React from "react"
 import { StatusBar } from "expo-status-bar"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, Text } from "react-native"
+import BottomNav from "./components/BottomNav"
+import { useSelector } from "react-redux"
+import { AppReduxState } from "./app/store"
+import Welcome from "./screens/Welcome"
 
 export function AppContent() {
-  return (
+  const firstTimeUser = useSelector(
+    (state: AppReduxState) => state.spending.firstTimeUser
+  )
+
+  return firstTimeUser ? (
+    <Welcome />
+  ) : (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar />
+      <BottomNav />
     </View>
   )
 }
@@ -13,8 +24,5 @@ export function AppContent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 })

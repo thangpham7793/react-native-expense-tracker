@@ -60,7 +60,7 @@ const initialSpendingState: SpendingState = {
 }
 
 describe("SpendingSlice Actions", () => {
-  describe("setinitialSpendingState", () => {
+  describe("setSpendingState", () => {
     it(
       generateGivenShouldTestDescription({
         given: "an object matching the SpendingState Type",
