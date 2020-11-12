@@ -13,7 +13,7 @@ import { generateGivenShouldTestDescription } from "../../utils/generateGivenSho
 
 const state: Partial<AppReduxState> = {
   spending: {
-    firstTimeUser: true,
+    firstTimeUser: false,
     categories: {
       groceries: {
         spendingHistory: [

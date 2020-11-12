@@ -21,9 +21,11 @@ import {
   AddCategory,
   DeleteCategory,
   UpdateCategory,
+  Categories,
+  CategoriesWithBudgetOnly,
 } from "./SpendingSlice.types"
 
-export const initialState: SpendingState = {
+export const emptyState: SpendingState = {
   firstTimeUser: true,
   categories: {
     groceries: { spendingHistory: [], weeklyBudget: 0 },
@@ -36,10 +38,27 @@ export const initialState: SpendingState = {
 
 export const spendingSlice = createSlice({
   name: "spending",
-  initialState,
+  initialState: emptyState,
   reducers: {
-    setSpendingState: (state, action: PayloadAction<SpendingState>) => {
-      return { ...state, ...action.payload }
+    setSpendingState: {
+      reducer(state, action: PayloadAction<SpendingState>) {
+        return { ...state, ...action.payload }
+      },
+
+      prepare(categories: CategoriesWithBudgetOnly) {
+        const categoryNames = Object.keys(categories)
+
+        categoryNames.forEach(
+          (categoryName) => (categories[categoryName].spendingHistory = [])
+        )
+
+        return {
+          payload: {
+            firstTimeUser: false,
+            categories: categories as Categories,
+          },
+        }
+      },
     },
 
     setCategoryBudget: (state, action: PayloadAction<SetCategoryBudget>) => {

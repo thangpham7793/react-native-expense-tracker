@@ -1,3 +1,4 @@
+import { CategoriesWithBudgetsOnly } from "./SpendingSlice.types"
 export type SpendingItem = {
   amount: number
   note: string
@@ -21,8 +22,17 @@ export type CategoryState = {
 
 export type SpendingState = {
   firstTimeUser: boolean
-  categories: {
-    [T in Category]: CategoryState
+  categories: Categories
+}
+
+export type Categories = {
+  [T in Category]: CategoryState
+}
+
+export type CategoriesWithBudgetOnly = {
+  [T in Category]: {
+    weeklyBudget: number
+    spendingHistory?: SpendingItem[]
   }
 }
 

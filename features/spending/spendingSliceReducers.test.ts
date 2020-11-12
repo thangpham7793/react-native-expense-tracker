@@ -7,13 +7,10 @@ import {
   AddCategory,
   DeleteCategory,
   UpdateCategory,
+  CategoriesWithBudgetOnly,
 } from "./SpendingSlice.types"
 
-import {
-  spendingSlice,
-  initialState as emptyState,
-  selectAllSpendingCategoryNames,
-} from "./spendingSlice"
+import { spendingSlice, selectAllSpendingCategoryNames } from "./spendingSlice"
 
 import { generateGivenShouldTestDescription } from "../../utils/generateGivenShouldTestDescription"
 
@@ -22,7 +19,7 @@ const { actions, reducer } = spendingSlice
 //reference: https://github.com/reduxjs/redux-toolkit/blob/master/src/createSlice.test.ts
 
 const initialState: SpendingState = {
-  firstTimeUser: true,
+  firstTimeUser: false,
   categories: {
     groceries: {
       spendingHistory: [
@@ -70,11 +67,35 @@ describe("SpendingSlice Actions", () => {
         should: "set the state as said object",
       }),
       () => {
+        let userInput: CategoriesWithBudgetOnly = {
+          groceries: { weeklyBudget: 100 },
+          entertainment: { weeklyBudget: 100 },
+          "eating out": { weeklyBudget: 100 },
+          others: { weeklyBudget: 100 },
+          bills: { weeklyBudget: 100 },
+        }
+
+        let emptyState: SpendingState = {
+          firstTimeUser: true,
+          categories: {
+            groceries: { spendingHistory: [], weeklyBudget: 0 },
+            entertainment: { spendingHistory: [], weeklyBudget: 0 },
+            "eating out": { spendingHistory: [], weeklyBudget: 0 },
+            others: { spendingHistory: [], weeklyBudget: 0 },
+            bills: { spendingHistory: [], weeklyBudget: 0 },
+          },
+        }
+
         const newState = reducer(
           emptyState,
-          actions.setSpendingState(initialState)
+          actions.setSpendingState(userInput)
         )
-        expect(newState).toEqual(initialState)
+
+        expect(emptyState.firstTimeUser).toBe(true)
+        expect(newState).toHaveProperty("firstTimeUser")
+        expect(newState).toHaveProperty("categories")
+        expect(newState.firstTimeUser).toBe(false)
+        expect(newState.categories).toStrictEqual(userInput)
       }
     )
   })
