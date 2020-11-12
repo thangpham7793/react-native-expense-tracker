@@ -5,13 +5,13 @@ import CenteredContainer from "./CenteredContainer"
 interface ColumnFlexLayoutProp {
   children: (JSX.Element | JSX.Element[])[]
   sizeRatio?: number[]
-  showBorder?: boolean
+  showDebuggingBorder?: boolean
 }
 
 export default function ColumnFlexLayout({
   children,
   sizeRatio,
-  showBorder = false,
+  showDebuggingBorder = false,
 }: ColumnFlexLayoutProp) {
   if (!sizeRatio) {
     sizeRatio = Array(children.length).fill(12 / children.length)
@@ -27,11 +27,13 @@ export default function ColumnFlexLayout({
 
   return (
     <CenteredContainer
-      style={showBorder ? layoutStyles.debugBorderStyle : undefined}
+      style={showDebuggingBorder ? layoutStyles.debugBorderStyle : undefined}
     >
       {children.map((children, index) => (
         <CenteredContainer
-          style={showBorder ? layoutStyles.debugBorderStyle : undefined}
+          style={
+            showDebuggingBorder ? layoutStyles.debugBorderStyle : undefined
+          }
           key={index}
           size={sizeRatio && sizeRatio[index]}
           children={children}

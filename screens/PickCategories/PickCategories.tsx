@@ -4,11 +4,11 @@ import ColumnFlexLayout from "../../components/ColumnFlexLayout"
 import { useSelector } from "react-redux"
 import { selectAllSpendingCategoryNames } from "../../features/spending/spendingSlice"
 import PickCategoriesForm from "./components/PickCategoriesForm"
-import { RootStackParamsList } from "../../AppContent"
+import { RootStackScreenParams } from "../../AppContent"
 import { StackNavigationProp } from "@react-navigation/stack"
 
 type WelcomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamsList,
+  RootStackScreenParams,
   "Pick Categories"
 >
 
@@ -19,10 +19,6 @@ interface PickCategoriesProp {
 export default function PickCategories({ navigation }: PickCategoriesProp) {
   const categories = useSelector(selectAllSpendingCategoryNames)
 
-  function navigateToNextScreen() {
-    navigation.navigate("Set Budgets")
-  }
-
   return (
     <ColumnFlexLayout
       sizeRatio={[4, 8]}
@@ -30,7 +26,7 @@ export default function PickCategories({ navigation }: PickCategoriesProp) {
         <Header content="Categories" style={{ fontSize: 30 }} />,
         <PickCategoriesForm
           categories={categories}
-          navigateToNextScreen={navigateToNextScreen}
+          navigateToNextScreen={() => navigation.navigate("Set Budgets")}
         />,
       ]}
     />

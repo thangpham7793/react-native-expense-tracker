@@ -8,6 +8,7 @@ interface HeaderProp {
 }
 
 export default function Header({ content, style }: HeaderProp) {
+  //TODO: extract this to styles folder
   return (
     <Title style={{ textTransform: "capitalize", ...style }}>{content}</Title>
   )

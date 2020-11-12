@@ -6,7 +6,7 @@ import Header from "../../components/Header"
 
 //types
 import { StackNavigationProp } from "@react-navigation/stack"
-import { RootStackParamsList } from "../../AppContent"
+import { RootStackScreenParams } from "../../AppContent"
 
 //specific
 import AppLogo from "./components/AppLogo"
@@ -16,7 +16,7 @@ import NextButton from "../../components/NextButton"
 // https://reactnavigation.org/docs/typescript/
 
 type WelcomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamsList,
+  RootStackScreenParams,
   "Welcome"
 >
 
@@ -25,17 +25,13 @@ interface WelcomeProps {
 }
 
 export default function Welcome({ navigation }: WelcomeProps) {
-  function navigateToNextScreen() {
-    navigation.navigate("Pick Categories")
-  }
-
   return (
     <ColumnFlexLayout
       children={[
         <Header content="stay on top of your money!" />,
         <AppLogo />,
         <NextButton
-          onPress={navigateToNextScreen}
+          onPress={() => navigation.navigate("Pick Categories")}
           content="Set Spending Categories"
         />,
       ]}

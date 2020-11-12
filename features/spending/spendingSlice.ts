@@ -77,7 +77,7 @@ export const spendingSlice = createSlice({
 
     addCategory: (state, action: PayloadAction<AddCategory>) => {
       const { category, budget } = action.payload
-      state.categories[category] = { budget, spendingHistory: [] }
+      state.categories[category] = { spendingHistory: [], budget }
     },
 
     deleteCategory: (state, action: PayloadAction<DeleteCategory>) => {
@@ -91,9 +91,13 @@ export const spendingSlice = createSlice({
         updatedBudget,
       } = action.payload
 
-      const newBudget = updatedBudget
-        ? updatedBudget
-        : state.categories[previousCategory].budget
+      let newBudget: number
+
+      if (updatedBudget) {
+        newBudget = updatedBudget
+      } else {
+        newBudget = state.categories[previousCategory].budget
+      }
 
       if (previousCategory === updatedCategory) {
         state.categories[previousCategory].budget = newBudget

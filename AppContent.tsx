@@ -10,7 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import SetBudgets from "./screens/SetBudgets/SetBudgets"
 import PickCategories from "./screens/PickCategories/PickCategories"
 
-export type RootStackParamsList = {
+export type RootStackScreenParams = {
   Welcome: undefined
   "Pick Categories": undefined
   "Set Budgets": undefined
@@ -21,7 +21,7 @@ export function AppContent() {
     (state: AppReduxState) => state.spending.firstTimeUser
   )
 
-  const Stack = createStackNavigator<RootStackParamsList>()
+  const Stack = createStackNavigator<RootStackScreenParams>()
 
   return firstTimeUser ? (
     <NavigationContainer>

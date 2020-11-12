@@ -12,17 +12,10 @@ export default function PickCategoriesForm({
   categories,
   navigateToNextScreen,
 }: PickCategoriesFormProp) {
-  function submitCategoryAndMoveToNextScreen() {
-    navigateToNextScreen()
-  }
-
   return (
     <View>
       <Text>{JSON.stringify(categories)}</Text>
-      <NextButton
-        content="Set Budgets"
-        onPress={submitCategoryAndMoveToNextScreen}
-      />
+      <NextButton content="Set Budgets" onPress={navigateToNextScreen} />
     </View>
   )
 }
