@@ -11,7 +11,6 @@ import { RootStackScreenParams } from "../../AppContent"
 //specific
 import AppLogo from "./components/AppLogo"
 import FlexLayout from "../../components/FlexLayout"
-import AppButton from "../../components/AppButton"
 import { Button } from "react-native-paper"
 
 // https://reactnavigation.org/docs/typescript/

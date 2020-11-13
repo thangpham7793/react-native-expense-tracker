@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppReduxState } from "../../../app/store"
 import CenteredContainer from "../../../components/CenteredContainer"
 import FlexLayout from "../../../components/FlexLayout"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+
 import {
   setSpendingState,
   selectUserInputErrors,
@@ -59,18 +61,20 @@ export default function PickCategoriesForm({
   }
 
   return (
-    <FlexLayout sizeRatio={[10, 2]}>
+    <FlexLayout sizeRatio={[9, 3]}>
       {Object.keys(initialCategories).map((category) => {
         return (
-          <CenteredContainer key={category}>
-            <TextInput
-              style={{ width: "100%" }}
-              label={capitalise(category)}
-              value={`${initialCategories[category].weeklyBudget}`}
-              onChangeText={(text) => onBudgetChanged(text, category)}
-              error={errors[category]}
-            />
-          </CenteredContainer>
+          <KeyboardAwareScrollView key={category} style={{ width: "100%" }}>
+            <CenteredContainer>
+              <TextInput
+                style={{ width: "100%" }}
+                label={capitalise(category)}
+                value={`${initialCategories[category].weeklyBudget}`}
+                onChangeText={(text) => onBudgetChanged(text, category)}
+                error={errors[category]}
+              />
+            </CenteredContainer>
+          </KeyboardAwareScrollView>
         )
       })}
       <Button
