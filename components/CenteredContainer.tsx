@@ -3,7 +3,7 @@ import { View, ViewStyle } from "react-native"
 import { layoutStyles } from "../styles/Layout"
 
 interface CenteredContainerProps {
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element | JSX.Element[] | string
   style?: ViewStyle
   size?: number
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"

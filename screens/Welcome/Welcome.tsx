@@ -11,7 +11,8 @@ import { RootStackScreenParams } from "../../AppContent"
 //specific
 import AppLogo from "./components/AppLogo"
 import FlexLayout from "../../components/FlexLayout"
-import NextButton from "../../components/NextButton"
+import AppButton from "../../components/AppButton"
+import { Button } from "react-native-paper"
 
 // https://reactnavigation.org/docs/typescript/
 
@@ -30,10 +31,12 @@ export default function Welcome({ navigation }: WelcomeProps) {
       children={[
         <Header content="stay on top of your money!" />,
         <AppLogo />,
-        <NextButton
+        <Button
+          mode="contained"
           onPress={() => navigation.navigate("Pick Categories")}
-          content="Set Spending Categories"
-        />,
+        >
+          Set Spending Categories
+        </Button>,
       ]}
     />
   )

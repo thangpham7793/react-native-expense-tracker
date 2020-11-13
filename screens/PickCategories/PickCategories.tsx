@@ -1,31 +1,33 @@
 import React from "react"
 import Header from "../../components/Header"
 import FlexLayout from "../../components/FlexLayout"
-import { useSelector } from "react-redux"
-import { selectAllSpendingCategoryNames } from "../../features/spending/spendingSlice"
 import PickCategoriesForm from "./components/PickCategoriesForm"
 import { RootStackScreenParams } from "../../AppContent"
 import { StackNavigationProp } from "@react-navigation/stack"
+import { RouteProp } from "@react-navigation/native"
 
-type WelcomeScreenNavigationProp = StackNavigationProp<
+type PickCategoriesNavigationProp = StackNavigationProp<
+  RootStackScreenParams,
+  "Pick Categories"
+>
+
+type PickCategoriesRouteProp = RouteProp<
   RootStackScreenParams,
   "Pick Categories"
 >
 
 interface PickCategoriesProp {
-  navigation: WelcomeScreenNavigationProp
+  navigation: PickCategoriesNavigationProp
+  route: PickCategoriesRouteProp
 }
 
 export default function PickCategories({ navigation }: PickCategoriesProp) {
-  const categories = useSelector(selectAllSpendingCategoryNames)
-
   return (
     <FlexLayout
-      sizeRatio={[4, 8]}
+      sizeRatio={[2, 10]}
       children={[
         <Header content="Categories" style={{ fontSize: 30 }} />,
         <PickCategoriesForm
-          categories={categories}
           navigateToNextScreen={() => navigation.navigate("Set Budgets")}
         />,
       ]}

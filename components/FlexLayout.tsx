@@ -3,7 +3,7 @@ import { layoutStyles } from "../styles/Layout"
 import CenteredContainer from "./CenteredContainer"
 
 interface FlexLayoutProp {
-  children: (JSX.Element | JSX.Element[])[]
+  children: (JSX.Element | JSX.Element[] | string)[]
   sizeRatio?: number[]
   showDebuggingBorder?: boolean
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"

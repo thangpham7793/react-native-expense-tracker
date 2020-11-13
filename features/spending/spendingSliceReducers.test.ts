@@ -7,7 +7,6 @@ import {
   AddCategory,
   DeleteCategory,
   UpdateCategory,
-  CategoriesWithBudgetOnly,
 } from "./SpendingSlice.types"
 
 import { spendingSlice, selectAllSpendingCategoryNames } from "./spendingSlice"
@@ -67,12 +66,12 @@ describe("SpendingSlice Actions", () => {
         should: "set the state as said object",
       }),
       () => {
-        let userInput: CategoriesWithBudgetOnly = {
-          groceries: { weeklyBudget: 100 },
-          entertainment: { weeklyBudget: 100 },
-          "eating out": { weeklyBudget: 100 },
-          others: { weeklyBudget: 100 },
-          bills: { weeklyBudget: 100 },
+        let userInput = {
+          groceries: { spendingHistory: [], weeklyBudget: "100" },
+          entertainment: { spendingHistory: [], weeklyBudget: "100" },
+          "eating out": { spendingHistory: [], weeklyBudget: "100" },
+          others: { spendingHistory: [], weeklyBudget: "100" },
+          bills: { spendingHistory: [], weeklyBudget: "100" },
         }
 
         let emptyState: SpendingState = {

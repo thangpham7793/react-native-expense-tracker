@@ -22,7 +22,8 @@ import {
   DeleteCategory,
   UpdateCategory,
   Categories,
-  CategoriesWithBudgetOnly,
+  UserInputCategories,
+  UserInputErrors,
 } from "./SpendingSlice.types"
 
 export const emptyState: SpendingState = {
@@ -31,8 +32,8 @@ export const emptyState: SpendingState = {
     groceries: { spendingHistory: [], weeklyBudget: 0 },
     entertainment: { spendingHistory: [], weeklyBudget: 0 },
     "eating out": { spendingHistory: [], weeklyBudget: 0 },
-    others: { spendingHistory: [], weeklyBudget: 0 },
     bills: { spendingHistory: [], weeklyBudget: 0 },
+    others: { spendingHistory: [], weeklyBudget: 0 },
   },
 }
 
@@ -42,15 +43,17 @@ export const spendingSlice = createSlice({
   reducers: {
     setSpendingState: {
       reducer(state, action: PayloadAction<SpendingState>) {
-        return { ...state, ...action.payload }
+        state.categories = action.payload.categories
+        state.firstTimeUser = action.payload.firstTimeUser
       },
 
-      prepare(categories: CategoriesWithBudgetOnly) {
+      prepare(categories: UserInputCategories) {
         const categoryNames = Object.keys(categories)
 
-        categoryNames.forEach(
-          (categoryName) => (categories[categoryName].spendingHistory = [])
-        )
+        categoryNames.forEach((categoryName) => {
+          categories[categoryName].weeklyBudget =
+            parseFloat(categories[categoryName].weeklyBudget.toString()) || 0
+        })
 
         return {
           payload: {
@@ -173,6 +176,16 @@ export const selectAllHistorySortedByDateDescending = (
 
 export const selectTotalSpentBudget = (state: any): number => {
   return calculateTotalSpentBudget(selectAllHistoryUnsorted(state))
+}
+
+export const selectUserInputErrors = (state: any): UserInputErrors => {
+  return selectAllSpendingCategoryNames(state).reduce(
+    (errorObject: UserInputErrors, category) => {
+      errorObject[category] = undefined
+      return errorObject
+    },
+    {}
+  )
 }
 
 export default spendingSlice.reducer

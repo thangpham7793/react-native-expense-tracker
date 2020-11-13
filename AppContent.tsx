@@ -9,6 +9,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import SetBudgets from "./screens/SetBudgets/SetBudgets"
 import PickCategories from "./screens/PickCategories/PickCategories"
+import { CategoriesWithBudgetOnly } from "./features/spending/SpendingSlice.types"
 
 export type RootStackScreenParams = {
   Welcome: undefined
